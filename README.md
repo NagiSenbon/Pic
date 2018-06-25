@@ -39,3 +39,26 @@ plt.pyplot.scatter(r_list,u_list, s=1, facecolor='0.1', lw = 0)
 plt.pyplot.axis([1.0,4.0,0,1.0])
 plt.pyplot.show()
 ```
+
+```python
+from itertools import repeat
+import numpy as np
+
+NUM_RUNS = 1000
+
+def logistic_map(xn, r):
+    return r * xn * (1 - xn)
+
+def calculate_fixpoint(x0, r):
+    xN = x0
+    for _ in repeat(None, NUM_RUNS):
+        xN = logistic_map(xN, r)
+    return xN
+
+def write_to_file(r, xs):
+    np.savetxt('./data/{}.txt'.format(r), xs)
+
+for r in np.arange(0, 4, 0.1):
+    xs = np.linspace(0.1, 1, 1000)
+    write_to_file(r, calculate_fixpoint(xs, r))
+```
